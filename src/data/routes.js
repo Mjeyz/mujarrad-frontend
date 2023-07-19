@@ -1,5 +1,5 @@
-import ConceptInventory from "../pages/ConceptInventory";
-import ConceptStatistics from "../pages/ConceptStatistics";
+import ConceptInventory from "../pages/ConceptInventory/Index";
+import ConceptStatistics from "../pages/ConceptStatistics/Index";
 
 const routes = [
     {
@@ -9,7 +9,7 @@ const routes = [
     },
     {
         id: 2,
-        path: 'stats',
+        path: 'new-concept',
         element: ConceptStatistics
     }
 ]

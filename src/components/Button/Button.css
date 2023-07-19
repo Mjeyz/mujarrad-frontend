@@ -1,0 +1,23 @@
+.button{
+    display: flex;
+    padding: 12px 24px;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    border-radius: 32px;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+}
+.primary {
+    background: var(--amber-500, #F59E0B);
+    color: #fff;
+}
+.secondary{
+    background: var(--white, #FFF);
+    border: 1px solid var(--slate-200, #E2E8F0);
+    color: var(--slate-900, #0F172A);
+}

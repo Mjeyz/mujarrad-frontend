@@ -1,0 +1,15 @@
+.ConceptInput{
+    
+}
+.ConceptInput .ConceptInput-label{
+    color: var(--slate-500, #64748B);
+    font-family: Poppins;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    align-self: stretch;
+}
+.ConceptInput input {
+    width: 100%;
+}

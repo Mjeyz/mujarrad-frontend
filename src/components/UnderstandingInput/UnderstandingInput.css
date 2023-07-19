@@ -1,0 +1,31 @@
+.UnderstandingInput {
+    display: flex;
+    padding: 20px;
+    align-items: center;
+    gap: 20px;
+    align-self: stretch;
+    border-radius: 6px;
+    border: 1px solid var(--slate-200, #E2E8F0);
+    background: var(--white, #FFF);
+}
+.UnderstandingInput input {
+    color: var(--slate-900, #0F172A);
+    font-family: Poppins;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    flex: 1 0 0;
+    border: none;
+    outline: none;
+}
+.UnderstandingInput .line {
+    width: 1px;
+    height: 21px;
+    background: #E2E8F0;
+}
+.UnderstandingInput button{
+    background: transparent;
+    border: none;
+    cursor: pointer;
+}

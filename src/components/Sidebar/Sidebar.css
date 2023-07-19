@@ -1,0 +1,37 @@
+.main-sidebar {
+    margin: 0;
+    padding: 0;
+    width: 288px;
+    background-color: #f1f1f1;
+    position: fixed;
+    height: 100%;
+    overflow: auto;
+    border-right: 1px solid #E2E8F0;
+    background: #FFF;
+}
+.brand-section{
+  display: flex;
+  padding: 48px 24px;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  align-self: stretch;
+}
+.side-nav-link{
+  display: flex;
+  padding: 24px;
+  align-items: center;
+  gap: 12px;
+  align-self: stretch;
+  font-family: Poppins;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  text-decoration: none;
+}
+.navLinkActive{
+  border-right: 3px solid #F59E0B;
+  background: var(--amber-100, #FEF3C7);
+  color: #F59E0B;
+}

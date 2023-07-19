@@ -1,8 +1,14 @@
 import React from 'react'
-
-const Index = () => {
+import Sidebar from '../../Components/Sidebar'
+const Index = ({ children }) => {
   return (
-    <div>Index</div>
+    <>
+      <Sidebar/>
+      <main className='main-container'>
+        {children}
+      </main>
+      
+    </>
   )
 }
 

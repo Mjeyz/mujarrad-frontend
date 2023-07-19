@@ -1,0 +1,19 @@
+table.data-table{
+    border-collapse: collapse;
+    border-spacing: 0;
+    width: 100%;
+    border: 1px solid var(--slate-200, #E2E8F0);
+    border-radius: 12px;
+    background: var(--white, #FFF);
+    border-collapse: separate; 
+    border-spacing: 0; 
+    overflow: hidden;
+}
+/* thead */
+th, td {
+    border: 1px solid var(--slate-200, #E2E8F0);
+    padding: 24px;
+}
+tbody tr:nth-child(odd){
+    background-color: #FEF3C7;
+}
