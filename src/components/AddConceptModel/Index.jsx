@@ -1,18 +1,12 @@
 import React from 'react'
-import './ConceptModel.css'
-import Delete from '../Icons/Delete';
+import './AddConceptModel.css'
+import Button from "../Button"
 import UnderstandingInput from '../UnderstandingInput'
-import ConceptInputsModel from '../ConceptInputsModel'
-import Button from '../Button'
 import BigButton from '../BigButton'
-const Index = ({ isOpen, onClose, data, isEdit }) => {
-    if(!isOpen){
-        return null;
-    }
-    const [conceptName, setConceptName] = React.useState('');
-    const [conceptDescription, setConceptDescription] = React.useState('');
 
-    const [understandingInputs, setUnderstandingInputs] = React.useState([])
+const Index = ({isOpen, title, inputs, onInputChange, onCancel, onContinue}) => {
+    if(!isOpen) return null;
+    const [understandingInputs, setUnderstandingInputs] = React.useState([''])
     const handleUnderstandingInputsChange = (index) => (event) => {
         const newUnderstandingInputs = [...understandingInputs];
         newUnderstandingInputs[index] = event.target.value;
@@ -49,13 +43,25 @@ const Index = ({ isOpen, onClose, data, isEdit }) => {
         <div className='ConceptModelOverlay'>
             <div className="ConceptModelWindow">
                 <div className="headline">
-                    <h2>{isEdit ? "Edit Concept" : "Add New Concept"}</h2>
+                    <h2>{title}</h2>
                 </div>
                 <div className="details">
                     <h4 className="ConceptHeadlineInput">Concept Details</h4>
                     <div className="ConceptInputsGroup">
-                        <input className='ConceptInput' type="text" name="" id="" placeholder='Concept Name' />
-                        <input className='ConceptInput' type="text" name="" id="" placeholder='Concept Description' />
+                        <input 
+                            className='ConceptInput'
+                            type="text" 
+                            name=""
+                            placeholder='Concept Name'  
+                            value=""
+                            onChange={onInputChange}/>
+                        <input 
+                            className='ConceptInput' 
+                            type="text" 
+                            name=""
+                            placeholder='Concept Description'
+                            value=""
+                            onChange={onInputChange} />
                     </div>
                     <h4 className="ConceptHeadlineInput">Understanding</h4>
                     <div className="understanding">
@@ -71,10 +77,9 @@ const Index = ({ isOpen, onClose, data, isEdit }) => {
                     <BigButton text="Add Another Understanding" onClick={handleAddUnderstandingInput} />
                 </div>
                 <div className="conceptFooter">
-                    <Button type="secondary" text="Cancel" onClick={onClose}/>
-                    <Button type="primary" text={isEdit ? "Save" : "Continue"} onClick={isEdit ? onClose : handleConceptContinue}/>
+                    <Button type="secondary" text="Go Back" onClick={onCancel}/>
+                    {onContinue && <Button type="primary" text="Continue" onClick={onContinue}/>}
                 </div>
-                <ConceptInputsModel isOpen={isConceptContinueOpen} onClose={closeConceptContinue} data={ConceptContinueData} />
             </div>
         </div>
     )

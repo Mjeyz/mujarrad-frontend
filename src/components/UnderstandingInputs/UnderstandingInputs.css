@@ -1,0 +1,30 @@
+.understandingInput {
+    width: 100%;
+}
+.understandingInput input{
+    width: 90%;
+}
+.understanding{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+    align-self: stretch;
+    width: 100%;
+}
+.addAnotherUnderstanding{
+    padding: 20px;
+    align-items: center;
+    align-self: stretch;
+    border-radius: 6px;
+    background: var(--amber-100, #FEF3C7);
+    border: none;
+    color: var(--amber-500, #F59E0B);
+    text-align: center;
+    font-family: Poppins;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    cursor: pointer; 
+}

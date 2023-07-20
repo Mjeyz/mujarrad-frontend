@@ -4,8 +4,10 @@ import Logo from '../../assets/images/Logo.png'
 import LangSwitcher from './LangSwitcher'
 import Delivery from '../Icons/Delivery'
 import Plus from '../Icons/Plus'
-import ConceptModel from '../../Components/ConceptModel';
+import AddConceptModel from '../AddConceptModel'
+// import ConceptModel from '../../Components/ConceptModel';
 import { Link, NavLink } from 'react-router-dom'
+import ConceptContext from '../../Data/ConceptContext'
 
 const Index = () => {
   const [activeLink, setActiveLink] = React.useState(1);
@@ -13,16 +15,11 @@ const Index = () => {
     { id: 1, title: 'Concept Inventory', path: '/', icon: <Delivery width='24' height='24' color={activeLink === 1 ? '#F59E0B' : '#000'} />},
     // { id: 2, title: 'New Concept', path: '/new-concept', icon: <Plus width='24' height='24' color={activeLink === 2 ? '#F59E0B' : '#000'} />},
   ];
-  const [isConceptModelOpen, setIsConceptModelOpen] = React.useState(false)
-  const [ConceptModelData, setConceptModelData] = React.useState([])
-  const openConceptModel = (data) =>{
-    setConceptModelData(data);
-    setIsConceptModelOpen(true);
-  }
-  const closeConceptModel = () =>{
-    setIsConceptModelOpen(false);
-    setConceptModelData(null);
-  }
+  const {
+    conceptData, conceptModelState, openConceptModel, closeConceptModel, handleConceptInputsChange
+  } = React.useContext(ConceptContext)
+  console.log(conceptModelState)
+    
   return (
     <div className='main-sidebar'>
       <div className="brand-section">
@@ -40,8 +37,44 @@ const Index = () => {
             <span>{link.title}</span>
           </Link>
         ))}
-      <button onClick={()=>openConceptModel()}>New Concept</button>
-      <ConceptModel isOpen={isConceptModelOpen} isEdit={false} data={ConceptModelData} onClose={closeConceptModel}/>
+        
+      <button onClick={()=>openConceptModel("model1")}>New Concept</button>
+      <AddConceptModel
+        isOpen={conceptModelState.model1}
+        title={"Add Concept"}
+        modelName="model1"
+        inputs={conceptData.model1}
+        onInputChange={handleConceptInputsChange}
+        onCancel={() => closeConceptModel("model1")}
+        onContinue={()=>{
+          closeConceptModel("model1")
+          openConceptModel("model2")
+        }}
+      />
+      <AddConceptModel
+        isOpen={conceptModelState.model2}
+        title={"Concept Inputs"}
+        modelName="model2"
+        inputs={conceptData.model2}
+        onInputChange={handleConceptInputsChange}
+        onCancel={() => closeConceptModel("model2")}
+        onContinue={()=>{
+          closeConceptModel("model2")
+          openConceptModel("model3")
+        }}
+      />
+      <AddConceptModel
+        isOpen={conceptModelState.model3}
+        title={"Concept Information"}
+        modelName="model3"
+        inputs={conceptData.model3}
+        onInputChange={handleConceptInputsChange}
+        onCancel={() => closeConceptModel("model3")}
+        onContinue={()=>{
+          closeConceptModel("model3")
+        }}
+      />
+      {/* <ConceptModel isOpen={isConceptModelOpen} isEdit={false} data={ConceptModelData} onClose={closeConceptModel}/> */}
     </div>
   )
 }
