@@ -2,6 +2,7 @@ import React from 'react'
 import './ConceptModel.css'
 import Delete from '../Icons/Delete';
 import UnderstandingInput from '../UnderstandingInput'
+import ConceptInputsModel from '../ConceptInputsModel'
 import Button from '../Button'
 const Index = ({ isOpen, onClose, data, isEdit }) => {
     if(!isOpen){
@@ -15,21 +16,39 @@ const Index = ({ isOpen, onClose, data, isEdit }) => {
         const newUnderstandingInputs = [...understandingInputs];
         newUnderstandingInputs[index] = event.target.value;
         setUnderstandingInputs(newUnderstandingInputs);
+        console.log(understandingInputs)
     };
     const handleAddUnderstandingInput = () => {
         setUnderstandingInputs([...understandingInputs, '']);
+        console.log(understandingInputs)
     };
     const handleDeleteUnderstandingInput = (index) => () => {
         const newUnderstandingInputs = [...understandingInputs];
         newUnderstandingInputs.splice(index, 1);
         setUnderstandingInputs(newUnderstandingInputs);
+        console.log(understandingInputs)
     };
+    const [isConceptContinueOpen, setIsConceptContinueOpen] = React.useState(false)
+    const [ConceptContinueData, setConceptContinueData] = React.useState([])
+    const openConceptContinue = (data) =>{
+        setConceptContinueData(data);
+        setIsConceptContinueOpen(true);
+        isOpen = false;
+    }
+    const closeConceptContinue = () =>{
+        setIsConceptContinueOpen(false);
+        setConceptContinueData(null);
+    } 
+
+    const handleConceptContinue = () => {
+        isOpen = false;
+    }
 
     return (
         <div className='ConceptModelOverlay'>
             <div className="ConceptModelWindow">
                 <div className="headline">
-                    <h2>New Concept</h2>
+                    <h2>{isEdit ? "Edit Concept" : "Add New Concept"}</h2>
                 </div>
                 <div className="details">
                     <h4 className="ConceptHeadlineInput">Concept Details</h4>
@@ -54,8 +73,9 @@ const Index = ({ isOpen, onClose, data, isEdit }) => {
                 </div>
                 <div className="conceptFooter">
                     <Button type="secondary" text="Cancel" onClick={onClose}/>
-                    <Button type="primary" text="Continue" onClick={onClose}/>
+                    <Button type="primary" text={isEdit ? "Save" : "Continue"} onClick={isEdit ? onClose : handleConceptContinue}/>
                 </div>
+                <ConceptInputsModel isOpen={isConceptContinueOpen} onClose={closeConceptContinue} data={ConceptContinueData} />
             </div>
         </div>
     )

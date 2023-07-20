@@ -27,7 +27,7 @@ const Index = () => {
         <Button text="Edit Concept" type="primary" onClick={()=>openConceptModel(statsData)}/>
       </div>
       <Table headings={statsHeadings} tdData={statsData}/>
-      <ConceptModel isOpen={isConceptModelOpen} isEdit={true} data={ConceptModelData} onClose={closeConceptModel}/>
+      <ConceptModel isOpen={isConceptModelOpen} isEdit={false} data={ConceptModelData} onClose={closeConceptModel}/>
     </MainLayout>
   )
 }
