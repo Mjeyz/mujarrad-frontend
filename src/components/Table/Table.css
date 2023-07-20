@@ -17,3 +17,9 @@ th, td {
 tbody tr:nth-child(odd){
     background-color: #FEF3C7;
 }
+.clickable{
+    cursor: pointer;
+}
+.clickable:hover{
+    background: rgba(254, 243, 199, 0.2);
+}

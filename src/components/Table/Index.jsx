@@ -2,7 +2,7 @@ import React from 'react'
 import './Table.css'
 import { useNavigate } from 'react-router-dom';
 
-const Index = ({headings, tdData}) => {
+const Index = ({headings, tdData, isHomePage}) => {
     const navigate = useNavigate();
     const handleClick = (id) => {
         navigate(`/stats/${id}`)
@@ -18,7 +18,7 @@ const Index = ({headings, tdData}) => {
         </thead> 
         <tbody>
             {tdData.map((td) => (
-                <tr key={td.id} onClick={() => handleClick(td.id)}>
+                <tr key={td.id} onClick={isHomePage ? () => handleClick(td.id) : null} className={isHomePage ? 'clickable' : null}>
                     {Object.keys(td)
                         .filter((key) => key !== 'id')
                         .map((key) => (

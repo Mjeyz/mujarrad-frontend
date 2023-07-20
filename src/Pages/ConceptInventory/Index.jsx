@@ -13,7 +13,7 @@ const Index = () => {
   return (
     <MainLayout>
         <h1>Concept Inventory</h1>
-        <Table headings={conceptHeadings} tdData={concepts} />
+        <Table headings={conceptHeadings} tdData={concepts} isHomePage={true}/>
         <Pagination pages={totalPaginationPages} currentPaginationPage={currentPaginationPage} onPageChange={handlePaginationPageChange}/>
     </MainLayout>
   )
