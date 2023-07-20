@@ -38,7 +38,7 @@ const Index = () => {
           </Link>
         ))}
         
-      <button onClick={()=>openConceptModel("model1")}>New Concept</button>
+      <div className={`new-concept-btn`} onClick={()=>openConceptModel("model1")}><Plus color={"#000"} width={"24px"} height={"24px"}/> <span>New Concept</span></div>
       <AddConceptModel
         isOpen={conceptModelState.model1}
         title={"Add Concept"}

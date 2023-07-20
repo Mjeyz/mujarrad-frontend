@@ -1,0 +1,41 @@
+.card{
+    display: flex;
+    width: 464px;
+    padding: 20px;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    border-radius: 12px;
+    border: 1px solid var(--slate-200, #E2E8F0);
+    background: var(--white, #FFF);
+    cursor: pointer;
+}
+.card:hover{
+    background: #fafafa;
+    transition-delay: 1ms;
+}
+.card .icon {
+    display: flex;
+    padding: 16px 32px;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    border-radius: 64px;
+    background: #FEF3C7;
+}
+.card .title{
+    color: var(--slate-900, #0F172A);
+    text-align: center;
+    font-family: Poppins;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+}
+.selected {
+    background: #FEF3C7;
+    border: 1px solid #E2E8F0;
+}
+.card .icoun-selected{
+    background: #FFF;
+}

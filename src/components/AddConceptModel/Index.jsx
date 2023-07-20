@@ -3,8 +3,13 @@ import './AddConceptModel.css'
 import Button from "../Button"
 import UnderstandingInput from '../UnderstandingInput'
 import BigButton from '../BigButton'
+import Card from '../Card'
+import Document from '../Icons/Document'
+import Audio from '../Icons/Audio';
+import Text from '../Icons/Text';
+import Table from '../Table'
 
-const Index = ({isOpen, title, inputs, onInputChange, onCancel, onContinue}) => {
+const Index = ({isOpen, title, modelName, inputs, onInputChange, onCancel, onContinue}) => {
     if(!isOpen) return null;
     const [understandingInputs, setUnderstandingInputs] = React.useState([''])
     const handleUnderstandingInputsChange = (index) => (event) => {
@@ -39,13 +44,21 @@ const Index = ({isOpen, title, inputs, onInputChange, onCancel, onContinue}) => 
         isOpen = false;
     }
 
+    const [cardStates, setCardStates] = React.useState([false, false, false]);
+    const handleCardSelection = (index, isSelected) => {
+        const newCardStates = [...cardStates];
+        newCardStates[index] = isSelected;
+        setCardStates(newCardStates);
+    }
+
     return (
         <div className='ConceptModelOverlay'>
             <div className="ConceptModelWindow">
                 <div className="headline">
                     <h2>{title}</h2>
                 </div>
-                <div className="details">
+                {modelName == "model1" ? (
+                    <div className="details">
                     <h4 className="ConceptHeadlineInput">Concept Details</h4>
                     <div className="ConceptInputsGroup">
                         <input 
@@ -76,6 +89,38 @@ const Index = ({isOpen, title, inputs, onInputChange, onCancel, onContinue}) => 
                     </div>
                     <BigButton text="Add Another Understanding" onClick={handleAddUnderstandingInput} />
                 </div>
+                ) : null}
+                {modelName == "model2" ? (
+                    <div className="model2">
+                        <Card index={0} isSelected={cardStates[0]} onSelectionChange={handleCardSelection}  icon={<Document color="#F59E0B" width="44px" height="44px"/>}  title={"Document Input"}/>
+                        <Card index={1} isSelected={cardStates[1]} onSelectionChange={handleCardSelection} icon={<Audio color="#F59E0B" width="44px" height="44px"/>}  title={"Audio Input"}/>
+                        <Card index={2} isSelected={cardStates[2]} onSelectionChange={handleCardSelection} icon={<Text color="#F59E0B" width="44px" height="44px"/>}  title={"Text Input"}/>
+                    </div>
+                ) : null}
+                {modelName == "model3" ? (
+                    <div className="model3">
+                        <Table headings={[]} tdData={[
+                            {
+                                url: "Mujarrad.Fhm.Text.Com/Url",
+                                text: "Text Input URL"
+                            },
+                            {
+                                url: "Mujarrad.Fhm.Audio.Com/Url",
+                                text: "Audio Input URL"
+                            },
+                            {
+                                url: "Mujarrad.Fhm.Document.Com/Url",
+                                text: "Document Input URL"
+                            },
+                            {
+                                url: "Mujarrad.Fhm.Conclusion.Com/Url",
+                                text: "Conclusion Output URL"
+                            },
+                        ]}/>
+                        <BigButton text="Back to Concept Inventory" onClick={() => console.log("Hello goda")}/>
+                    </div>
+                ) : null}
+                
                 <div className="conceptFooter">
                     <Button type="secondary" text="Go Back" onClick={onCancel}/>
                     {onContinue && <Button type="primary" text="Continue" onClick={onContinue}/>}

@@ -35,3 +35,25 @@
   background: var(--amber-100, #FEF3C7);
   color: #F59E0B;
 }
+.new-concept-btn{
+  width: 100%;
+  display: flex;
+  padding: 24px;
+  align-items: center;
+  gap: 12px;
+  align-self: stretch;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+.new-concept-btn span{
+  flex: 1 0 0;
+  color: var(--slate-900, #0F172A);
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}
+.new-concept-btn:hover{
+  background: var(--amber-100, #faf9f5);
+}
