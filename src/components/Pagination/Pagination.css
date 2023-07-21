@@ -13,6 +13,7 @@
     border-radius: 32px;
     border: 1px solid var(--slate-200, #E2E8F0);
     background: var(--white, #FFF);
+    cursor: pointer;
 }
 .paginationLink{
     display: flex;
@@ -30,7 +31,13 @@
     background: var(--white, #FFF);
     cursor: pointer;
 }
+.paginationLink:hover{
+    background: rgba(245, 158, 11, 0.1);
+}
 .paginationActive{
     background: var(--amber-500, #F59E0B);
     color: #FFF;
+}
+.paginationButton:hover{
+    background: rgba(245, 158, 11, 0.1);
 }

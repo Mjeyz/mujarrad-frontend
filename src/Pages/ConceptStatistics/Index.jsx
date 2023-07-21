@@ -1,13 +1,17 @@
 import React from 'react'
 import MainLayout from '../../Layouts/MainLayout';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import Back from '../../Components/Icons/Back';
 import Button from '../../Components/Button'
 import Table from '../../Components/Table'
 import statsData, { statsHeadings } from '../../Data/stats';
 import ConceptModel from '../../Components/ConceptModel';
+import ConceptApi from '../../Utils/ConceptApi';
 
 const Index = () => {
+  const conceptID = useParams();
+  console.log(conceptID);
+  const [currentConceptData, setCurrentConceptData] = React.useState([]);
   const [isConceptModelOpen, setIsConceptModelOpen] = React.useState(false)
   const [ConceptModelData, setConceptModelData] = React.useState(statsData)
   const openConceptModel = (data) =>{
@@ -17,8 +21,20 @@ const Index = () => {
   const closeConceptModel = () =>{
     setIsConceptModelOpen(false);
     setConceptModelData(null);
-  
   }
+  React.useEffect(() => {
+    try{
+      async function getData() {
+        const data = await ConceptApi.get_one(conceptID.id);
+        setCurrentConceptData(data);
+        console.log(data);
+      }
+      getData();
+    }catch(error){
+
+    }
+  }, [])
+
   return (
     <MainLayout>
       <div className="pageNav">
