@@ -8,48 +8,69 @@ import Document from '../Icons/Document'
 import Audio from '../Icons/Audio';
 import Text from '../Icons/Text';
 import Table from '../Table'
+import axios from 'axios'
 
-const Index = ({isOpen, title, modelName, inputs, onInputChange, onCancel, onContinue}) => {
+const Index = ({isOpen, title, modelName, onCancel, onContinue}) => {
     if(!isOpen) return null;
-    const [understandingInputs, setUnderstandingInputs] = React.useState([''])
+    const [conceptData, setConceptData] = React.useState({
+        conceptname: '',
+        description: '',
+        textUrl: 'Mujarrad.Fhm.Text.Com/Url',
+        audioUrl: 'Mujarrad.Fhm.Audio.Com/Url',
+        documentUrl: 'Mujarrad.Fhm.Document.Com/Url',
+        conclusionUrl: 'Mujarrad.Fhm.Output.Com/Url',
+        inputs: []
+    });
+    const [understandingInputs, setUnderstandingInputs] = React.useState([{name: ''}])
     const handleUnderstandingInputsChange = (index) => (event) => {
         const newUnderstandingInputs = [...understandingInputs];
-        newUnderstandingInputs[index] = event.target.value;
+        newUnderstandingInputs[index] = {name: event.target.value};
         setUnderstandingInputs(newUnderstandingInputs);
-        console.log(understandingInputs)
+        setConceptData({ ...conceptData, inputs: newUnderstandingInputs });
     };
+    
     const handleAddUnderstandingInput = () => {
-        setUnderstandingInputs([...understandingInputs, '']);
-        console.log(understandingInputs)
+        const newUnderstandingInputs = [...understandingInputs, {name: ''}];
+        setUnderstandingInputs(newUnderstandingInputs);
+        setConceptData({ ...conceptData, inputs: newUnderstandingInputs });
     };
+    
     const handleDeleteUnderstandingInput = (index) => () => {
         const newUnderstandingInputs = [...understandingInputs];
         newUnderstandingInputs.splice(index, 1);
         setUnderstandingInputs(newUnderstandingInputs);
-        console.log(understandingInputs)
+        setConceptData({ ...conceptData, inputs: newUnderstandingInputs });
     };
-    const [isConceptContinueOpen, setIsConceptContinueOpen] = React.useState(false)
-    const [ConceptContinueData, setConceptContinueData] = React.useState([])
-    const openConceptContinue = (data) =>{
-        setConceptContinueData(data);
-        setIsConceptContinueOpen(true);
-        isOpen = false;
-    }
-    const closeConceptContinue = () =>{
-        setIsConceptContinueOpen(false);
-        setConceptContinueData(null);
-    } 
-
-    const handleConceptContinue = () => {
-        isOpen = false;
-    }
-
     const [cardStates, setCardStates] = React.useState([false, false, false]);
     const handleCardSelection = (index, isSelected) => {
         const newCardStates = [...cardStates];
         newCardStates[index] = isSelected;
         setCardStates(newCardStates);
     }
+    
+    // console.log(conceptData)
+    // const handlePublish = async () => {
+    //     try{
+    //         console.log(conceptData)
+    //         setShouldPublish(false);
+    //     }catch(error){
+    //         console.error(error);
+    //     }
+    // }
+    const [publishConcept, setPublishConcept] = React.useState(false)
+    function handlePublish(){
+        setPublishConcept(true)
+    }
+    React.useEffect(()=>{
+        function postData(data){
+            console.log(data)
+            setPublishConcept(false)
+        }
+        postData(conceptData)
+    }, [publishConcept, conceptData])
+    
+    
+    
 
     return (
         <div className='ConceptModelOverlay'>
@@ -64,17 +85,17 @@ const Index = ({isOpen, title, modelName, inputs, onInputChange, onCancel, onCon
                         <input 
                             className='ConceptInput'
                             type="text" 
-                            name=""
+                            name="conceptname"
                             placeholder='Concept Name'  
-                            value=""
-                            onChange={onInputChange}/>
+                            value={conceptData.conceptname}
+                            onChange={(e) => setConceptData({...conceptData, conceptname: e.target.value})}/>
                         <input 
                             className='ConceptInput' 
                             type="text" 
-                            name=""
+                            name="description"
                             placeholder='Concept Description'
-                            value=""
-                            onChange={onInputChange} />
+                            value={conceptData.description}
+                            onChange={(e) => setConceptData({...conceptData, description: e.target.value})}/>
                     </div>
                     <h4 className="ConceptHeadlineInput">Understanding</h4>
                     <div className="understanding">
@@ -117,14 +138,16 @@ const Index = ({isOpen, title, modelName, inputs, onInputChange, onCancel, onCon
                                 text: "Conclusion Output URL"
                             },
                         ]}/>
-                        <BigButton text="Back to Concept Inventory" onClick={() => console.log("Hello goda")}/>
+                        <BigButton text="Back to Concept Inventory" onClick={onCancel}/>
                     </div>
                 ) : null}
+                {modelName == "model3" ? null : (
+                    <div className="conceptFooter">
+                        <Button type="secondary" text="Go Back" onClick={onCancel}/>
+                        {onContinue && <Button type="primary" text={modelName == "model2" ? "Publish" : "Continue"} onClick={modelName == "model2" ? handlePublish : onContinue}/>}
+                    </div>
+                )}
                 
-                <div className="conceptFooter">
-                    <Button type="secondary" text="Go Back" onClick={onCancel}/>
-                    {onContinue && <Button type="primary" text="Continue" onClick={onContinue}/>}
-                </div>
             </div>
         </div>
     )
