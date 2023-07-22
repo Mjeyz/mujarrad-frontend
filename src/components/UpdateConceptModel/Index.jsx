@@ -8,7 +8,6 @@ import Document from '../Icons/Document'
 import Audio from '../Icons/Audio';
 import Text from '../Icons/Text';
 import Table from '../Table'
-import axios from 'axios'
 import ConceptContext from '../../Data/ConceptContext'
 
 

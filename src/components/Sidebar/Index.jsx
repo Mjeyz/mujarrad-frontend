@@ -17,8 +17,7 @@ const Index = () => {
   ];
   const {
     conceptData, conceptModelState, openConceptModel, closeConceptModel, handleConceptInputsChange
-  } = React.useContext(ConceptContext)
-  console.log(conceptModelState)
+  } = React.useContext(ConceptContext);
     
   return (
     <div className='main-sidebar'>
@@ -46,10 +45,6 @@ const Index = () => {
         inputs={conceptData.model1}
         onInputChange={handleConceptInputsChange}
         onCancel={() => closeConceptModel("model1")}
-        onContinue={()=>{
-          closeConceptModel("model1")
-          openConceptModel("model2")
-        }}
       />
       <AddConceptModel
         isOpen={conceptModelState.model2}
@@ -58,10 +53,6 @@ const Index = () => {
         inputs={conceptData.model2}
         onInputChange={handleConceptInputsChange}
         onCancel={() => closeConceptModel("model2")}
-        onContinue={()=>{
-          closeConceptModel("model2")
-          openConceptModel("model3")
-        }}
       />
       <AddConceptModel
         isOpen={conceptModelState.model3}
@@ -70,9 +61,6 @@ const Index = () => {
         inputs={conceptData.model3}
         onInputChange={handleConceptInputsChange}
         onCancel={() => closeConceptModel("model3")}
-        onContinue={()=>{
-          closeConceptModel("model3")
-        }}
       />
       {/* <ConceptModel isOpen={isConceptModelOpen} isEdit={false} data={ConceptModelData} onClose={closeConceptModel}/> */}
     </div>

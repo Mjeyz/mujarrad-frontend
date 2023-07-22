@@ -8,25 +8,57 @@ import Document from '../Icons/Document'
 import Audio from '../Icons/Audio';
 import Text from '../Icons/Text';
 import Table from '../Table'
-import axios from 'axios'
 import ConceptContext from '../../Data/ConceptContext'
 
 
-const Index = ({isOpen, title, modelName, onCancel, onContinue}) => {
+const Index = ({isOpen, title, modelName, inputs, onCancel, isEdit}) => {
     if(!isOpen) return null;
     const { 
         conceptData, 
-        conceptModelState, 
+        updatedConcept,
+        setUpdatedConcept,
         cardStates,
-        openConceptModel, 
-        closeConceptModel, 
         handleConceptInputsChange, 
         handleAddUnderstandingInput, 
         handleDeleteUnderstandingInput, 
         setConceptModelState,
         addConcept,
-        handleCardSelection
+        handleCardSelection,
+        updateSingleConcept,
+        handleUpdatedAddUnderstandingInput,
     } = React.useContext(ConceptContext);
+
+    const changeHandler = (e) => {
+        e.persist();
+        setUpdatedConcept(prevState => ({
+            ...prevState,
+            editModel: {
+                ...prevState.editModel,
+                [e.target.name]: e.target.value,
+            }
+        }));
+    }
+    const handleUpdatedConceptInputsChange = (model, inputName, index) => e => {
+        setUpdatedConcept(prevState => ({
+            ...prevState,
+            [model]: {
+                ...prevState[model],
+                [inputName]: prevState[model][inputName].map((input, i) => 
+                    i === index ? {...input, name: e.target.value} : input
+                ),
+            },
+        }));
+    };
+    const handleUpdatedDeleteUnderstandingInput = (model, index) => {
+        setUpdatedConcept(prevState => ({
+            ...prevState,
+            [model]: {
+                ...prevState[model],
+                understandingInputs: prevState[model].understandingInputs.filter((_, i) => i !== index),
+            },
+        }));
+    };
+    
 
     return (
         <div className='ConceptModelOverlay'>
@@ -34,6 +66,42 @@ const Index = ({isOpen, title, modelName, onCancel, onContinue}) => {
                 <div className="headline">
                     <h2>{title}</h2>
                 </div>
+                {modelName == "editModel" ? (
+                    <div className="details">
+                        <h4 className="ConceptHeadlineInput">Concept Details</h4>
+                        <div className="ConceptInputsGroup">
+                            <input 
+                                className='ConceptInput'
+                                type="text" 
+                                name="conceptName"
+                                placeholder='Concept Name'  
+                                value={updatedConcept.editModel.conceptName}
+                                onChange={changeHandler}
+                            />
+                            <input 
+                                className='ConceptInput' 
+                                type="text" 
+                                name="conceptDescription"
+                                placeholder='Concept Description'
+                                value={updatedConcept.editModel.conceptDescription}
+                                onChange={changeHandler}
+                            />
+                        </div>
+                        <h4 className="ConceptHeadlineInput">Understanding</h4>
+                        <div className="understanding">
+                            {updatedConcept.editModel.understandingInputs.map((input, index) => (
+                                <UnderstandingInput 
+                                    key={index}
+                                    value={input} 
+                                    onChange={handleUpdatedConceptInputsChange('editModel', 'understandingInputs', index)} 
+                                    onDelete={() => handleUpdatedDeleteUnderstandingInput('editModel', index)}
+                                />
+                            ))}
+                        </div>
+                        <BigButton text="Add Another Understanding" onClick={() => handleUpdatedAddUnderstandingInput('editModel')} />
+                    </div>
+                ) : null}
+
                 {modelName == "model1" ? (
                     <div className="details">
                     <h4 className="ConceptHeadlineInput">Concept Details</h4>
@@ -90,6 +158,7 @@ const Index = ({isOpen, title, modelName, onCancel, onContinue}) => {
                         }}/> : null}
 
                         {modelName == "model2" ? <Button type="primary" text={"Publish"} onClick={addConcept}/> : null}
+                        {isEdit ? <Button type="primary" text={"Save"} onClick={() => updateSingleConcept(updatedConcept.editModel.id)}/> : null}
                     </div>
                 )}
                 

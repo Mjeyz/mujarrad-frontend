@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React from 'react'
+import React, { useState } from 'react'
 import ConceptApi from '../Utils/ConceptApi';
 
 const ConceptContext = React.createContext()
@@ -71,16 +71,18 @@ export const ConceptContextProvider = ({ children }) => {
     const conceptModelInitial = {
         model1: false,
         model2: false,
-        model3: false
+        model3: false, 
+        editModel: false
     }
 
     const [conceptModelState, setConceptModelState] = React.useState({
         model1: false,
         model2: false,
-        model3: false
+        model3: false, 
+        editModel: false
     });
     const initialCard = [false, false, false];
-    const [cardStates, setCardStates] = React.useState([false, false, false]);
+    const [cardStates, setCardStates] = React.useState([false, false, false, false]);
     const [conceptsData, setConceptsData] = React.useState([]);
     const [currentPaginationPage, setCurrentPaginationPage] = React.useState(1);
     const [totalPages, setTotalPages] = React.useState(0);
@@ -92,7 +94,15 @@ export const ConceptContextProvider = ({ children }) => {
     const closeConceptModel = (model) => {
         setConceptModelState({ ...conceptModelState, [model]: false })
     };
-
+    
+    const [updatedConcept, setUpdatedConcept] = useState({
+        editModel: {
+            conceptName: "",
+            conceptDescription: "",
+            understandingInputs: [''],
+        },
+    })
+    
     const handleConceptInputsChange = (modelName, name, index = null) => (event) => {
         if (modelName === 'model1' && name === 'understandingInputs') {
             const newUnderstandingInputs = [...conceptData.model1.understandingInputs];
@@ -136,6 +146,7 @@ export const ConceptContextProvider = ({ children }) => {
             },
         }));
     };
+    
     const handleCardSelection = (index, isSelected) => {
         const newCardStates = [...cardStates];
         newCardStates[index] = isSelected;
@@ -187,16 +198,12 @@ export const ConceptContextProvider = ({ children }) => {
         try{
             const response = await axios.post('http://localhost:8000/api/concepts', dataToSend);
             console.log('Concept added successfully:', response);
-            // setConceptData(conceptInitialData);
-            // setCardStates(initialCard);
             setConceptModelState(prevState => ({ ...prevState, model2: false, model3: true }))
             fetchConcepts();
         }catch(err){
             console.error('Failed to add concept:', err);
         }
     }
-
-    
 
     const handlePaginationPageChange = (page) => {
         setCurrentPaginationPage(page);
@@ -209,12 +216,125 @@ export const ConceptContextProvider = ({ children }) => {
         setCurrentPaginationPage(data.currentPage);
     }
 
+    const handleUpdatedConceptInputsChange = (model, field, index) => value => {
+        console.log('value:', value);
+    };
+    
+    const handleUpdatedDeleteUnderstandingInput = (model, index) => {
+        setUpdatedConcept(prevData => {
+            const newUnderstandings = [...prevData[model].understandingInputs];
+            newUnderstandings.splice(index, 1);
+            return {...prevData, [model]: {...prevData[model], understandingInputs: newUnderstandings}};
+        });
+    };
+    const handleUpdatedAddUnderstandingInput = model => {
+        setUpdatedConcept(prevData => {
+            const newUnderstandings = [...prevData[model].understandingInputs, {name: ''}];
+            return {...prevData, [model]: {...prevData[model], understandingInputs: newUnderstandings}};
+        });
+    };
+
+    const updateSingleConcept = async (conceptId) => {
+        const dataToSend = {
+            conceptname: updatedConcept.editModel.conceptName,
+            description: updatedConcept.editModel.conceptDescription,
+            inputs: [],
+        }
+        try{
+            const response = await axios.put(`http://localhost:8000/api/concepts/${conceptId}`, dataToSend);
+            console.log('Concept updated successfully:', response);
+            fetchConcepts();
+        }catch(err){
+            console.error('Failed to update concept:', err);
+        }
+    }
+
+    const [currentConceptData, setCurrentConceptData] = React.useState([]);
+    const [statLoading, setStatLoading] = React.useState(true);
+    const transformConceptResponse = (response) => {
+        let transformedResponse = {};
+        transformedResponse.concept = [
+            {
+                "id" : response.id,
+                "name": response.conceptname,
+                "description": response.description,
+                "hits": response.usagecount,
+                "averageConfidence": 70
+            }
+        ];
+    
+        response.inputs.forEach((input, index) => {
+            transformedResponse.concept.push({
+                "id" : (response.id + (index + 1)),
+                "name": input.name,
+                "description": "-",
+                "hits": input.hits,
+                "averageConfidence": input.averageConfidence
+            });
+        });
+        return transformedResponse;
+    }
+    const transformApiResponse = (response) => {
+        let transformedResponse = {};
+        transformedResponse.editModel = {
+            id: response.id,
+            conceptName: response.conceptname,
+            conceptDescription: response.description,
+            understandingInputs: [],
+        };
+        response.inputs.forEach((input) => {
+            transformedResponse.editModel.understandingInputs.push({ "name": input.name });
+        });
+        return transformedResponse;
+    }
+
+    // React.useEffect(() => {
+        async function getStatsData(id) {
+        try{
+            const data = await ConceptApi.get_one(id);
+            setCurrentConceptData(transformConceptResponse(data));
+            setUpdatedConcept(transformApiResponse(data));
+            setStatLoading(false)
+        }catch(error){
+        }
+        }
+        // getStatsData();
+    // }, [])
+
+
+    
+
     React.useEffect(() => {
         fetchConcepts();
     }, [currentPaginationPage])
 
     return (
-        <ConceptContext.Provider value={{ conceptsData, currentPaginationPage, totalPages, conceptData, conceptModelState, cardStates, handlePaginationPageChange, fetchConcepts, openConceptModel, closeConceptModel, handleConceptInputsChange, handleAddUnderstandingInput, handleDeleteUnderstandingInput, addConcept, handleCardSelection, setConceptModelState }}>
+        <ConceptContext.Provider value={{ 
+            conceptsData, 
+            currentPaginationPage, 
+            totalPages, 
+            conceptData, 
+            conceptModelState,
+            cardStates, 
+            updatedConcept,
+            currentConceptData,
+            statLoading,
+             handlePaginationPageChange, 
+            getStatsData,
+             fetchConcepts, 
+             openConceptModel, 
+             closeConceptModel, 
+             handleConceptInputsChange, 
+             handleAddUnderstandingInput, 
+             handleDeleteUnderstandingInput, 
+             addConcept, 
+             handleCardSelection, 
+             setConceptModelState,
+             handleUpdatedConceptInputsChange,
+             updateSingleConcept,
+             handleUpdatedDeleteUnderstandingInput,
+             handleUpdatedAddUnderstandingInput,
+            setUpdatedConcept,  }}>
             {children}
         </ConceptContext.Provider>
     );
