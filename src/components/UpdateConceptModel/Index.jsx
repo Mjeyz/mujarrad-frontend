@@ -12,14 +12,11 @@ import axios from 'axios'
 import ConceptContext from '../../Data/ConceptContext'
 
 
-const Index = ({isOpen, title, modelName, onCancel, onContinue}) => {
+const Index = ({isOpen, title, modelName, onCancel}) => {
     if(!isOpen) return null;
     const { 
-        conceptData, 
-        conceptModelState, 
+        conceptData,
         cardStates,
-        openConceptModel, 
-        closeConceptModel, 
         handleConceptInputsChange, 
         handleAddUnderstandingInput, 
         handleDeleteUnderstandingInput, 

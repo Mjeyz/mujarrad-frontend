@@ -17,8 +17,8 @@ const Index = ({headings, tdData, isHomePage}) => {
             </tr>
         </thead> 
         <tbody>
-            {tdData.map((td) => (
-                <tr key={td.id} onClick={isHomePage ? () => handleClick(td.id) : null} className={isHomePage ? 'clickable' : null}>
+            {tdData.map((td, index) => (
+                <tr key={index} onClick={isHomePage ? () => handleClick(td.id) : null} className={isHomePage ? 'clickable' : null}>
                     {Object.keys(td)
                         .filter((key) => key !== 'id')
                         .map((key) => (
