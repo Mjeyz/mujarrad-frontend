@@ -5,38 +5,7 @@ import ConceptApi from '../Utils/ConceptApi';
 const ConceptContext = React.createContext()
 
 export const ConceptContextProvider = ({ children }) => {
-    const conceptInitialData = [
-        {
-            model1: {
-                conceptName: "",
-                conceptDescription: "",
-                understandingInputs: [''],
-            },
-            model2: {
-                documentInput: "",
-                audioInput: "",
-                textInput: ""
-            },
-            model3: [
-                {
-                    url: "Mujarrad.Fhm.Text.Com/Url",
-                    text: "Text Input URL"
-                },
-                {
-                    url: "Mujarrad.Fhm.Audio.Com/Url",
-                    text: "Audio Input URL"
-                },
-                {
-                    url: "Mujarrad.Fhm.Document.Com/Url",
-                    text: "Document Input URL"
-                },
-                {
-                    url: "Mujarrad.Fhm.Conclusion.Com/Url",
-                    text: "Conclusion Output URL"
-                },
-            ]
-        }
-    ]
+
     const [conceptData, setConceptData] = React.useState({
         model1: {
             conceptName: "",
@@ -67,21 +36,12 @@ export const ConceptContextProvider = ({ children }) => {
             },
         ]
     });
-
-    const conceptModelInitial = {
-        model1: false,
-        model2: false,
-        model3: false, 
-        editModel: false
-    }
-
     const [conceptModelState, setConceptModelState] = React.useState({
         model1: false,
         model2: false,
         model3: false, 
         editModel: false
     });
-    const initialCard = [false, false, false];
     const [cardStates, setCardStates] = React.useState([false, false, false, false]);
     const [conceptsData, setConceptsData] = React.useState([]);
     const [currentPaginationPage, setCurrentPaginationPage] = React.useState(1);
@@ -215,24 +175,7 @@ export const ConceptContextProvider = ({ children }) => {
         setTotalPages(data.totalPages);
         setCurrentPaginationPage(data.currentPage);
     }
-
-    const handleUpdatedConceptInputsChange = (model, field, index) => value => {
-        console.log('value:', value);
-    };
     
-    const handleUpdatedDeleteUnderstandingInput = (model, index) => {
-        setUpdatedConcept(prevData => {
-            const newUnderstandings = [...prevData[model].understandingInputs];
-            newUnderstandings.splice(index, 1);
-            return {...prevData, [model]: {...prevData[model], understandingInputs: newUnderstandings}};
-        });
-    };
-    const handleUpdatedAddUnderstandingInput = model => {
-        setUpdatedConcept(prevData => {
-            const newUnderstandings = [...prevData[model].understandingInputs, {name: ''}];
-            return {...prevData, [model]: {...prevData[model], understandingInputs: newUnderstandings}};
-        });
-    };
 
     const updateSingleConcept = async (conceptId) => {
         const dataToSend = {
@@ -332,10 +275,7 @@ export const ConceptContextProvider = ({ children }) => {
              addConcept, 
              handleCardSelection, 
              setConceptModelState,
-             handleUpdatedConceptInputsChange,
              updateSingleConcept,
-             handleUpdatedDeleteUnderstandingInput,
-             handleUpdatedAddUnderstandingInput,
             setUpdatedConcept,
             setStatsCurrentPage  }}>
             {children}
