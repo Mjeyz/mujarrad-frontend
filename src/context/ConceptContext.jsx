@@ -243,12 +243,13 @@ export const ConceptContextProvider = ({ children }) => {
         try{
             const response = await axios.put(`http://localhost:8000/api/concepts/${conceptId}`, dataToSend);
             console.log('Concept updated successfully:', response);
-            fetchConcepts();
+            setConceptChanged(true);
+            setConceptModelState(prevState => ({ ...prevState, editModel: false }))
         }catch(err){
             console.error('Failed to update concept:', err);
         }
     }
-
+    const [conceptChanged, setConceptChanged] = React.useState(false)
     const [currentConceptData, setCurrentConceptData] = React.useState([]);
     const [statLoading, setStatLoading] = React.useState(true);
     const transformConceptResponse = (response) => {
@@ -291,16 +292,17 @@ export const ConceptContextProvider = ({ children }) => {
 
     React.useEffect(() => {
         async function getStatsData() {
-        try{
-            const data = await ConceptApi.get_one(statsCurrentPage);
-            setCurrentConceptData(transformConceptResponse(data));
-            setUpdatedConcept(transformApiResponse(data));
-            setStatLoading(false)
-        }catch(error){
-        }
+            try{
+                const data = await ConceptApi.get_one(statsCurrentPage);
+                setCurrentConceptData(transformConceptResponse(data));
+                setUpdatedConcept(transformApiResponse(data));
+                setStatLoading(false)
+                setConceptChanged(false)
+            }catch(error){
+            }
         }
         getStatsData();
-    }, [statsCurrentPage])
+    }, [statsCurrentPage, conceptChanged])
 
 
     
