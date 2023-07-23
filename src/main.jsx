@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import routes from './Data/routes'
 import './assets/css/main.css'
-import { ConceptContextProvider } from './Data/ConceptContext'
+import { ConceptContextProvider } from './context/ConceptContext'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <BrowserRouter>

@@ -3,7 +3,7 @@ import MainLayout from '../../Layouts/MainLayout';
 import { conceptHeadings } from '../../Data/concepts'
 import Table from '../../Components/Table'
 import Pagination from '../../Components/Pagination'
-import ConceptContext from '../../Data/ConceptContext';
+import ConceptContext from '../../context/ConceptContext';
 
 const Index = () => {
   const { conceptsData, currentPaginationPage, totalPages, handlePaginationPageChange } = React.useContext(ConceptContext);

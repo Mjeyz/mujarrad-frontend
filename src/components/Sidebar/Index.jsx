@@ -7,7 +7,7 @@ import Plus from '../Icons/Plus'
 import AddConceptModel from '../AddConceptModel'
 // import ConceptModel from '../../Components/ConceptModel';
 import { Link, NavLink } from 'react-router-dom'
-import ConceptContext from '../../Data/ConceptContext'
+import ConceptContext from '../../context/ConceptContext'
 
 const Index = () => {
   const [activeLink, setActiveLink] = React.useState(1);

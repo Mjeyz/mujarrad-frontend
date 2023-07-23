@@ -8,7 +8,7 @@ import Document from '../Icons/Document'
 import Audio from '../Icons/Audio';
 import Text from '../Icons/Text';
 import Table from '../Table'
-import ConceptContext from '../../Data/ConceptContext'
+import ConceptContext from '../../context/ConceptContext'
 
 
 const Index = ({isOpen, title, modelName, inputs, onCancel, isEdit}) => {

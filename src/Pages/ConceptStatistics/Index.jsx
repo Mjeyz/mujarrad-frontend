@@ -7,7 +7,7 @@ import Table from '../../Components/Table'
 import statsData, { statsHeadings } from '../../Data/stats';
 import ConceptApi from '../../Utils/ConceptApi';
 import AddConceptModel from '../../Components/AddConceptModel'
-import ConceptContext from '../../Data/ConceptContext';
+import ConceptContext from '../../context/ConceptContext';
 const Index = () => {
   const conceptID = useParams();
 
