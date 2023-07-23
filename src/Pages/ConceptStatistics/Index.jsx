@@ -14,11 +14,18 @@ const Index = () => {
   const {
     
     currentConceptData,
-    statLoading, getStatsData, conceptModelState, openConceptModel, closeConceptModel, handleConceptInputsChange, setUpdatedConcept, updatedConcept
+    statLoading, 
+    conceptModelState, 
+    openConceptModel, 
+    closeConceptModel, 
+    handleConceptInputsChange, 
+    setStatsCurrentPage,
+    updatedConcept
   } = React.useContext(ConceptContext);
 
-
-  getStatsData(conceptID.id);
+  React.useEffect(()=> {
+    setStatsCurrentPage(conceptID.id)
+  }, [conceptID.id])
 
   return (
     <MainLayout>

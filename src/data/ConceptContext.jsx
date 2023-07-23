@@ -287,19 +287,20 @@ export const ConceptContextProvider = ({ children }) => {
         });
         return transformedResponse;
     }
+    const [statsCurrentPage, setStatsCurrentPage] = React.useState()
 
-    // React.useEffect(() => {
-        async function getStatsData(id) {
+    React.useEffect(() => {
+        async function getStatsData() {
         try{
-            const data = await ConceptApi.get_one(id);
+            const data = await ConceptApi.get_one(statsCurrentPage);
             setCurrentConceptData(transformConceptResponse(data));
             setUpdatedConcept(transformApiResponse(data));
             setStatLoading(false)
         }catch(error){
         }
         }
-        // getStatsData();
-    // }, [])
+        getStatsData();
+    }, [statsCurrentPage])
 
 
     
@@ -320,7 +321,6 @@ export const ConceptContextProvider = ({ children }) => {
             currentConceptData,
             statLoading,
              handlePaginationPageChange, 
-            getStatsData,
              fetchConcepts, 
              openConceptModel, 
              closeConceptModel, 
@@ -334,7 +334,8 @@ export const ConceptContextProvider = ({ children }) => {
              updateSingleConcept,
              handleUpdatedDeleteUnderstandingInput,
              handleUpdatedAddUnderstandingInput,
-            setUpdatedConcept,  }}>
+            setUpdatedConcept,
+            setStatsCurrentPage  }}>
             {children}
         </ConceptContext.Provider>
     );
